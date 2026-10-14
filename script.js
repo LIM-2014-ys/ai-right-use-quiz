@@ -136,7 +136,6 @@ const scoreText = document.getElementById('score-text');
 const resultDesc = document.getElementById('result-desc');
 
 document.addEventListener('DOMContentLoaded', () => {
-  initCanvas();
   checkSubmission();
   setupEvents();
 });
@@ -147,9 +146,9 @@ function checkSubmission() {
     const savedScore = parseInt(localStorage.getItem('ai_quiz_score') || '0', 10);
     showResultScreen(savedScore);
 
-    // 저장된 점수가 4점 이상일 때만 폭죽 실행
+    // 4점 이상이면 폭죽 발사
     if (savedScore >= 4) {
-      setTimeout(() => launchFireworks(), 300);
+      launchFireworks();
     }
   }
 }
@@ -257,7 +256,6 @@ function finishQuiz() {
     }
   });
 
-  // 로컬 스토리지에 기록
   localStorage.setItem('ai_quiz_submitted', 'true');
   localStorage.setItem('ai_quiz_score', score);
 
@@ -265,7 +263,7 @@ function finishQuiz() {
 
   // ⭐ 4점 이상일 때만 폭죽 연출 실행
   if (score >= 4) {
-    setTimeout(() => launchFireworks(), 200);
+    launchFireworks();
   }
 }
 
@@ -315,88 +313,45 @@ function setupSecretReset() {
 }
 
 /* ===================================================
-   폭죽(Firework Canvas) 파티클 애니메이션 엔진
+   💥 confetti 폭죽 발사 함수
 =================================================== */
-let canvas, ctx;
-let particles = [];
-let animationId = null;
-
-function initCanvas() {
-  canvas = document.getElementById('fireworks-canvas');
-  if (!canvas) return;
-  ctx = canvas.getContext('2d');
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-}
-
-function resizeCanvas() {
-  if (canvas) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-}
-
 function launchFireworks() {
-  if (!canvas || !ctx) initCanvas();
-  
-  particles = [];
-  const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#f59e0b', '#10b981', '#ec4899', '#8b5cf6'];
-  
-  // 6번 폭죽 연속 발사
-  for (let i = 0; i < 6; i++) {
-    setTimeout(() => {
-      const startX = Math.random() * (canvas.width * 0.7) + (canvas.width * 0.15);
-      const startY = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.15);
-      
-      for (let p = 0; p < 90; p++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 10 + 2;
-        particles.push({
-          x: startX,
-          y: startY,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          alpha: 1,
-          decay: Math.random() * 0.015 + 0.008,
-          size: Math.random() * 4 + 2
-        });
-      }
-    }, i * 220);
+  if (typeof confetti !== 'function') return;
+
+  const count = 200;
+  const defaults = {
+    origin: { y: 0.7 }
+  };
+
+  function fire(particleRatio, opts) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio)
+    });
   }
 
-  if (animationId) cancelAnimationFrame(animationId);
-  animateFireworks();
-}
-
-function animateFireworks() {
-  if (particles.length === 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    return;
-  }
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += 0.1; // 중력
-    p.alpha -= p.decay;
-
-    if (p.alpha <= 0) {
-      particles.splice(i, 1);
-      continue;
-    }
-
-    ctx.save();
-    ctx.globalAlpha = p.alpha;
-    ctx.fillStyle = p.color;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  animationId = requestAnimationFrame(animateFireworks);
+  // 화려한 연쇄 폭죽 연출
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+  });
+  fire(0.2, {
+    spread: 60,
+  });
+  fire(0.35, {
+    spread: 100,
+    decay: 0.91,
+    scalar: 0.8
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 25,
+    decay: 0.92,
+    scalar: 1.2
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+  });
 }

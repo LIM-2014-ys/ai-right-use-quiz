@@ -12,6 +12,19 @@ body {
   align-items: center;
   min-height: 100vh;
   color: #0f172a;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 폭죽 캔버스 배경 레이어 */
+#fireworks-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 /* 모바일 & 태블릿 전용 가로 폭 제한 (최대 500px) */
@@ -23,6 +36,8 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 501px) {
@@ -67,8 +82,9 @@ body {
 .app-footer {
   padding: 16px;
   text-align: center;
-  font-size: 12px;
-  color: #94a3b8;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
   border-top: 1px solid #f1f5f9;
 }
 
@@ -95,7 +111,6 @@ body {
   color: #64748b;
   line-height: 1.5;
   margin-top: 12px;
-  margin-bottom: 24px;
   word-break: keep-all;
 }
 
@@ -175,6 +190,10 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+/* 화면 맨 아래 하단에 고정 배치되는 버튼 스타일 */
+.bottom-btn {
   margin-top: auto;
 }
 

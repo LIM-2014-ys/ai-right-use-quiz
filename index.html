@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI 윤리 및 올바른 사용법 퀴즈</title>
   <link rel="stylesheet" href="style.css">
-  <!-- 💥 100% 작동 보장 confetti 폭죽 라이브러리 추가 -->
+  <!-- 폭죽(Confetti) 연출 라이브러리 -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
           <h2>올바른 AI 사용 가이드</h2>
           <p class="description">
             10개의 AI 윤리 및 사용 수칙 중 <strong>5문항이 무작위</strong>로 출제됩니다.<br>
-            퀴즈를 풀며 올바른 AI 이용법을 알아봅시다!
+            퀴즈를 차근차근 풀며 올바른 AI 이용법을 알아봅시다!
           </p>
           <ul class="info-list">
             <li>📌 <strong>문항 수:</strong> 총 5문제</li>
@@ -62,7 +62,7 @@
         <div class="card quiz-card">
           <h2 id="question-text" class="question-text">문제가 여기에 표시됩니다.</h2>
           <div id="options-container" class="options-container">
-            <!-- 보기 버튼들이 자바스크립트로 동적 생성됨 -->
+            <!-- 보기 버튼들이 동적 생성됨 -->
           </div>
           <button id="btn-next" class="btn btn-primary" disabled>다음 문제</button>
         </div>
@@ -82,7 +82,7 @@
       </section>
     </main>
 
-    <!-- 푸터 영역 -->
+    <!-- 푸터 영역 (0.5초 내 연속 7회 클릭 시 비밀 초기화) -->
     <footer class="app-footer">
       <p>© 2026. 윤슬초 전교회장 임준서. All rights reserved.</p>
     </footer>

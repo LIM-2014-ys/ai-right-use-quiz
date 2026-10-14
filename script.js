@@ -146,7 +146,7 @@ function checkSubmission() {
     const savedScore = parseInt(localStorage.getItem('ai_quiz_score') || '0', 10);
     showResultScreen(savedScore);
 
-    // 4점 이상이면 폭죽 발사
+    // 4점 이상일 때 폭죽 발사
     if (savedScore >= 4) {
       launchFireworks();
     }
@@ -283,7 +283,7 @@ function showResultScreen(score) {
 }
 
 /* ===================================================
-   관리자 전용 비밀 초기화 (푸터 연속 5회 클릭)
+   관리자 전용 비밀 초기화 (푸터 0.5초 이내 연속 7회 클릭)
 =================================================== */
 function setupSecretReset() {
   let footerClicks = 0;
@@ -295,11 +295,13 @@ function setupSecretReset() {
       footerClicks++;
 
       clearTimeout(clickResetTimer);
+      // 0.5초(500ms) 동안 추가 클릭이 없으면 클릭 횟수 초기화
       clickResetTimer = setTimeout(() => {
         footerClicks = 0;
-      }, 2000);
+      }, 500);
 
-      if (footerClicks >= 5) {
+      // 0.5초 이내에 7회 이상 클릭 시 동작
+      if (footerClicks >= 7) {
         footerClicks = 0;
         if (confirm("[관리자 기능] 현재 기기의 퀴즈 응시 기록을 초기화하시겠습니까?")) {
           localStorage.removeItem('ai_quiz_submitted');
@@ -313,15 +315,13 @@ function setupSecretReset() {
 }
 
 /* ===================================================
-   💥 confetti 폭죽 발사 함수
+   💥 Confetti 폭죽 연출 함수
 =================================================== */
 function launchFireworks() {
   if (typeof confetti !== 'function') return;
 
   const count = 200;
-  const defaults = {
-    origin: { y: 0.7 }
-  };
+  const defaults = { origin: { y: 0.7 } };
 
   function fire(particleRatio, opts) {
     confetti({
@@ -331,27 +331,9 @@ function launchFireworks() {
     });
   }
 
-  // 화려한 연쇄 폭죽 연출
-  fire(0.25, {
-    spread: 26,
-    startVelocity: 55,
-  });
-  fire(0.2, {
-    spread: 60,
-  });
-  fire(0.35, {
-    spread: 100,
-    decay: 0.91,
-    scalar: 0.8
-  });
-  fire(0.1, {
-    spread: 120,
-    startVelocity: 25,
-    decay: 0.92,
-    scalar: 1.2
-  });
-  fire(0.1, {
-    spread: 120,
-    startVelocity: 45,
-  });
+  fire(0.25, { spread: 26, startVelocity: 55 });
+  fire(0.2, { spread: 60 });
+  fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+  fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+  fire(0.1, { spread: 120, startVelocity: 45 });
 }

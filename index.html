@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI 윤리 및 올바른 사용법 퀴즈</title>
   <link rel="stylesheet" href="style.css">
+  <!-- 💥 100% 작동 보장 confetti 폭죽 라이브러리 추가 -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-  <!-- 폭죽 애니메이션용 캔버스 -->
-  <canvas id="fireworks-canvas"></canvas>
 
   <div class="app-container">
     <!-- 헤더 영역 -->
@@ -30,7 +30,7 @@
           </p>
           <ul class="info-list">
             <li>📌 <strong>문항 수:</strong> 총 5문제</li>
-            <li>📌 <strong>특징:</strong> 4점 이상 달성 시 축하 폭죽 효과!</li>
+            <li>📌 <strong>축하 효과:</strong> 4점 이상 달성 시 화려한 폭죽 연출!</li>
           </ul>
           <button id="btn-start" class="btn btn-primary">퀴즈 시작하기</button>
         </div>
@@ -82,7 +82,7 @@
       </section>
     </main>
 
-    <!-- 푸터 영역 (연속 5회 클릭 시 비밀 초기화 실행) -->
+    <!-- 푸터 영역 -->
     <footer class="app-footer">
       <p>© 2026. 윤슬초 전교회장 임준서. All rights reserved.</p>
     </footer>

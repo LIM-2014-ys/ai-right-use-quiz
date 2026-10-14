@@ -1,4 +1,3 @@
-// 10개 문제 데이터베이스
 const QUESTION_DATABASE = [
   {
     id: 1,
@@ -257,13 +256,9 @@ function finishQuiz() {
   }
 
   switchScreen('result');
-  // 퀴즈 종료 및 결과 화면 진입 시 폭죽 효과 발사
   launchFireworks();
 }
 
-/* ===================================================
-   폭죽(Firework) 애니메이션 효과 (Canvas)
-=================================================== */
 let canvas, ctx;
 let particles = [];
 
@@ -285,7 +280,6 @@ function launchFireworks() {
   particles = [];
   const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#f59e0b', '#10b981', '#ec4899'];
   
-  // 3번 연쇄 폭죽 발사
   for (let i = 0; i < 3; i++) {
     setTimeout(() => {
       const startX = Math.random() * (canvas.width * 0.6) + (canvas.width * 0.2);
@@ -323,7 +317,7 @@ function animateFireworks() {
     const p = particles[i];
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.08; // 중력 적용
+    p.vy += 0.08;
     p.alpha -= p.decay;
 
     if (p.alpha <= 0) {

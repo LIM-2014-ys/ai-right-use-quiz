@@ -1,3 +1,4 @@
+// 10개 질문 데이터베이스
 const QUESTION_DATABASE = [
   {
     id: 1,
@@ -116,6 +117,7 @@ let currentStep = 0;
 let userAnswers = [];
 let selectedOptionIndex = null;
 
+// 스크린 요소
 const screens = {
   start: document.getElementById('screen-start'),
   already: document.getElementById('screen-already'),
@@ -123,6 +125,7 @@ const screens = {
   result: document.getElementById('screen-result')
 };
 
+// UI 요소
 const btnStart = document.getElementById('btn-start');
 const btnNext = document.getElementById('btn-next');
 const questionText = document.getElementById('question-text');
@@ -149,6 +152,7 @@ function checkSubmission() {
 function setupEvents() {
   btnStart.addEventListener('click', startQuiz);
   btnNext.addEventListener('click', handleNext);
+  setupSecretReset(); // 비밀 초기화 기능 바인딩
 }
 
 function switchScreen(screenName) {
@@ -158,6 +162,7 @@ function switchScreen(screenName) {
   screens[screenName].classList.add('active');
 }
 
+// 배열 셔플
 function shuffle(array) {
   let currentIndex = array.length, randomIndex;
   const newArray = [...array];
@@ -170,6 +175,7 @@ function shuffle(array) {
   return newArray;
 }
 
+// 퀴즈 시작 (5개 무작위 선택 및 옵션 섞기)
 function startQuiz() {
   const shuffledDb = shuffle(QUESTION_DATABASE);
   const picked = shuffledDb.slice(0, 5);
@@ -192,6 +198,7 @@ function startQuiz() {
   renderQuestion();
 }
 
+// 문제 렌더링
 function renderQuestion() {
   selectedOptionIndex = null;
   btnNext.disabled = true;
@@ -234,6 +241,7 @@ function handleNext() {
   }
 }
 
+// 퀴즈 완료 시
 function finishQuiz() {
   progressFill.style.width = '100%';
 
@@ -244,6 +252,7 @@ function finishQuiz() {
     }
   });
 
+  // 로컬 스토리지에 응시 상태 및 점수 기록
   localStorage.setItem('ai_quiz_submitted', 'true');
   localStorage.setItem('ai_quiz_score', score);
 
@@ -251,11 +260,12 @@ function finishQuiz() {
   launchFireworks();
 }
 
+// 결과 화면 출력
 function showResultScreen(score) {
   scoreText.textContent = `${score} / 5`;
   
   if (score == 5) {
-    resultDesc.textContent = "AI 올바른 사용법을 완벽하게 이해하고 있습니다.";
+    resultDesc.textContent = "AI 올바른 사용법을 완벽하게 이해하고 있습니다!";
   } else if (score >= 3) {
     resultDesc.textContent = "AI 올바른 사용법을 잘 이해하고 있습니다.";
   } else {
@@ -263,6 +273,36 @@ function showResultScreen(score) {
   }
 
   switchScreen('result');
+}
+
+/* ===================================================
+   관리자 전용 비밀 초기화 (푸터 연속 5회 클릭)
+=================================================== */
+function setupSecretReset() {
+  let footerClicks = 0;
+  let clickResetTimer;
+  const footerEl = document.querySelector('.app-footer');
+
+  if (footerEl) {
+    footerEl.addEventListener('click', () => {
+      footerClicks++;
+
+      clearTimeout(clickResetTimer);
+      clickResetTimer = setTimeout(() => {
+        footerClicks = 0;
+      }, 2000); // 2초 이내에 계속 클릭해야 함
+
+      if (footerClicks >= 5) {
+        footerClicks = 0;
+        if (confirm("[관리자 기능] 현재 기기의 퀴즈 응시 기록을 초기화하시겠습니까?")) {
+          localStorage.removeItem('ai_quiz_submitted');
+          localStorage.removeItem('ai_quiz_score');
+          alert("응시 기록이 초기화되었습니다.");
+          location.reload();
+        }
+      }
+    });
+  }
 }
 
 /* ===================================================

@@ -3,82 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI 올바르게 이용하기 퀴즈</title>
+  <title>AI 윤리 및 올바른 사용법 퀴즈</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- 폭죽 이펙트용 캔버스 -->
+  <!-- 폭죽 애니메이션용 캔버스 -->
   <canvas id="fireworks-canvas"></canvas>
 
   <div class="app-container">
+    <!-- 헤더 영역 -->
     <header class="app-header">
-      <div class="badge">AI 윤리 및 올바른 사용법</div>
+      <span class="badge">AI ethics & usage</span>
       <h1>AI 올바르게 이용하기 퀴즈</h1>
     </header>
 
-    <main class="app-content">
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="app-main">
       <!-- 1. 시작 화면 -->
       <section id="screen-start" class="screen active">
-        <div class="start-card">
-          <div class="start-hero-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
-              <path d="M12 12L2.5 7.5"></path>
-              <path d="m12 12 8.5 4.5"></path>
-              <path d="m12 12-4.5 8.5"></path>
-            </svg>
-          </div>
+        <div class="card">
+          <div class="icon-wrapper">💡</div>
           <h2>올바른 AI 사용 가이드</h2>
           <p class="description">
-            10개의 AI 윤리 및 사용 수칙 중 <strong>5문항</strong>이 무작위로 출제됩니다.
+            10개의 AI 윤리 및 사용 수칙 중 <strong>5문항이 무작위</strong>로 출제됩니다.<br>
+            퀴즈를 차근차근 풀며 올바른 AI 이용법을 알아봅시다!
           </p>
-          <div class="info-list">
-            <div class="info-item">
-              <span class="info-bullet"></span>
-              <span>문항 수: 총 5문제</span>
-            </div>
-            <div class="info-item">
-              <span class="info-bullet"></span>
-              <span>기회: 1회 참여 가능</span>
-            </div>
-          </div>
+          <ul class="info-list">
+            <li>📌 <strong>문항 수:</strong> 총 5문제</li>
+            <li>📌 <strong>기회:</strong> 기기당 1회 참여 가능</li>
+            <li>📌 <strong>특징:</strong> 로그인 없이 바로 시작</li>
+          </ul>
+          <button id="btn-start" class="btn btn-primary">퀴즈 시작하기</button>
         </div>
-        <button id="btn-start" class="btn btn-primary bottom-btn">퀴즈 시작하기</button>
       </section>
 
       <!-- 2. 이미 참여함 화면 -->
       <section id="screen-already" class="screen">
         <div class="card">
-          <h2>참여 완료</h2>
+          <div class="icon-wrapper">✅</div>
+          <h2>이미 참여하셨습니다</h2>
           <p class="description">
-            이미 퀴즈 응시를 완료하셨습니다.<br>
-            중복 참여는 불가능합니다.
+            본 퀴즈는 기기당 1회만 응시할 수 있습니다.<br>
+            참여해 주셔서 감사합니다!
           </p>
         </div>
       </section>
 
       <!-- 3. 퀴즈 진행 화면 -->
       <section id="screen-quiz" class="screen">
-        <div class="quiz-progress-bar">
-          <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
-        </div>
-        <div class="quiz-meta">
+        <!-- 진행 바 -->
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
           <span id="quiz-step" class="step-text">문제 1 / 5</span>
         </div>
 
+        <!-- 문제 카드 -->
         <div class="card quiz-card">
-          <h3 id="question-text" class="question-title"></h3>
-          <div id="options-container" class="options-list"></div>
+          <h2 id="question-text" class="question-text">문제가 여기에 표시됩니다.</h2>
+          <div id="options-container" class="options-container">
+            <!-- 보기 버튼들이 자바스크립트로 동적 생성됨 -->
+          </div>
+          <button id="btn-next" class="btn btn-primary" disabled>다음 문제</button>
         </div>
-
-        <button id="btn-next" class="btn btn-primary bottom-btn" disabled>다음 문제</button>
       </section>
 
       <!-- 4. 결과 화면 -->
       <section id="screen-result" class="screen">
         <div class="card">
-          <h2>퀴즈 결과</h2>
+          <div class="icon-wrapper">🎉</div>
+          <h2>참여 완료</h2>
           <div class="score-box">
             <span class="score-label">최종 점수</span>
             <span id="score-text" class="score-value">0 / 5</span>
@@ -88,6 +83,7 @@
       </section>
     </main>
 
+    <!-- 푸터 영역 (연속 5회 클릭 시 비밀 초기화 실행) -->
     <footer class="app-footer">
       <p>© 2026. 윤슬초 전교회장 임준서. All rights reserved.</p>
     </footer>

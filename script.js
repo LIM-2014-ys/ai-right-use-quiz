@@ -136,6 +136,7 @@ const resultDesc = document.getElementById('result-desc');
 document.addEventListener('DOMContentLoaded', () => {
   checkSubmission();
   setupEvents();
+  initCanvas();
 });
 
 function checkSubmission() {
@@ -256,4 +257,88 @@ function finishQuiz() {
   }
 
   switchScreen('result');
+  // 퀴즈 종료 및 결과 화면 진입 시 폭죽 효과 발사
+  launchFireworks();
+}
+
+/* ===================================================
+   폭죽(Firework) 애니메이션 효과 (Canvas)
+=================================================== */
+let canvas, ctx;
+let particles = [];
+
+function initCanvas() {
+  canvas = document.getElementById('fireworks-canvas');
+  ctx = canvas.getContext('2d');
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+}
+
+function resizeCanvas() {
+  if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+}
+
+function launchFireworks() {
+  particles = [];
+  const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#f59e0b', '#10b981', '#ec4899'];
+  
+  // 3번 연쇄 폭죽 발사
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      const startX = Math.random() * (canvas.width * 0.6) + (canvas.width * 0.2);
+      const startY = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.2);
+      
+      for (let p = 0; p < 60; p++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 6 + 2;
+        particles.push({
+          x: startX,
+          y: startY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          decay: Math.random() * 0.015 + 0.01,
+          size: Math.random() * 3 + 2
+        });
+      }
+    }, i * 300);
+  }
+
+  animateFireworks();
+}
+
+function animateFireworks() {
+  if (particles.length === 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.08; // 중력 적용
+    p.alpha -= p.decay;
+
+    if (p.alpha <= 0) {
+      particles.splice(i, 1);
+      continue;
+    }
+
+    ctx.save();
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  requestAnimationFrame(animateFireworks);
 }

@@ -144,10 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function checkSubmission() {
   const isSubmitted = localStorage.getItem('ai_quiz_submitted');
   if (isSubmitted === 'true') {
-    const savedScore = parseInt(localStorage.getItem('ai_quiz_score') || 0, 10);
+    const savedScore = parseInt(localStorage.getItem('ai_quiz_score') || '0', 10);
     showResultScreen(savedScore);
-    
-    // 💡 저장된 점수가 4점 이상일 때만 폭죽 터뜨림
+
+    // 저장된 점수가 4점 이상일 때만 폭죽 실행
     if (savedScore >= 4) {
       launchFireworks();
     }
@@ -263,7 +263,7 @@ function finishQuiz() {
 
   showResultScreen(score);
 
-  // 💡 점수가 4점 이상일 때만 폭죽 실행
+  // ⭐ 점수가 4점 이상일 때만 폭죽(Canvas 파티클) 실행
   if (score >= 4) {
     launchFireworks();
   }
@@ -315,7 +315,7 @@ function setupSecretReset() {
 }
 
 /* ===================================================
-   폭죽(Firework) 애니메이션 효과 (Canvas)
+   폭죽(Firework Canvas) 애니메이션 효과
 =================================================== */
 let canvas, ctx;
 let particles = [];
@@ -339,14 +339,14 @@ function launchFireworks() {
   particles = [];
   const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#f59e0b', '#10b981', '#ec4899'];
   
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       const startX = Math.random() * (canvas.width * 0.6) + (canvas.width * 0.2);
       const startY = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.2);
       
-      for (let p = 0; p < 70; p++) {
+      for (let p = 0; p < 80; p++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 8 + 3;
+        const speed = Math.random() * 9 + 3;
         particles.push({
           x: startX,
           y: startY,
@@ -358,7 +358,7 @@ function launchFireworks() {
           size: Math.random() * 4 + 2
         });
       }
-    }, i * 250);
+    }, i * 200);
   }
 
   animateFireworks();
@@ -376,7 +376,7 @@ function animateFireworks() {
     const p = particles[i];
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.08;
+    p.vy += 0.08; // 중력 효과
     p.alpha -= p.decay;
 
     if (p.alpha <= 0) {

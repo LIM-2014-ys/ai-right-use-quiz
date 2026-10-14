@@ -8,6 +8,9 @@
 </head>
 <body>
 
+  <!-- 폭죽 이펙트용 캔버스 -->
+  <canvas id="fireworks-canvas"></canvas>
+
   <div class="app-container">
     <header class="app-header">
       <div class="badge">AI 윤리 및 올바른 사용법</div>
@@ -22,8 +25,8 @@
           <p class="description">
             10개의 문제 중 5개의 문제가 무작위로 출제됩니다.
           </p>
-          <button id="btn-start" class="btn btn-primary">퀴즈 시작하기</button>
         </div>
+        <button id="btn-start" class="btn btn-primary bottom-btn">퀴즈 시작하기</button>
       </section>
 
       <!-- 2. 이미 참여함 화면 -->
@@ -51,7 +54,7 @@
           <div id="options-container" class="options-list"></div>
         </div>
 
-        <button id="btn-next" class="btn btn-primary" disabled>다음 문제</button>
+        <button id="btn-next" class="btn btn-primary bottom-btn" disabled>다음 문제</button>
       </section>
 
       <!-- 4. 결과 화면 -->
@@ -68,7 +71,7 @@
     </main>
 
     <footer class="app-footer">
-      <p>© AI 올바르게 이용하기 퀴즈</p>
+      <p>© 윤슬초 전교회장 임준서</p>
     </footer>
   </div>
 

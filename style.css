@@ -32,17 +32,6 @@ body {
   overflow-x: hidden;
 }
 
-/* 폭죽 Canvas 최상단 및 투명 클릭 배치 */
-#fireworks-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 999999;
-}
-
 /* 앱 컨테이너 */
 .app-container {
   width: 100%;

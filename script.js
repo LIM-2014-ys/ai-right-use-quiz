@@ -136,9 +136,9 @@ const scoreText = document.getElementById('score-text');
 const resultDesc = document.getElementById('result-desc');
 
 document.addEventListener('DOMContentLoaded', () => {
+  initCanvas();
   checkSubmission();
   setupEvents();
-  initCanvas();
 });
 
 function checkSubmission() {
@@ -149,7 +149,7 @@ function checkSubmission() {
 
     // 저장된 점수가 4점 이상일 때만 폭죽 실행
     if (savedScore >= 4) {
-      launchFireworks();
+      setTimeout(() => launchFireworks(), 300);
     }
   }
 }
@@ -157,7 +157,7 @@ function checkSubmission() {
 function setupEvents() {
   btnStart.addEventListener('click', startQuiz);
   btnNext.addEventListener('click', handleNext);
-  setupSecretReset(); // 비밀 초기화 기능 바인딩
+  setupSecretReset();
 }
 
 function switchScreen(screenName) {
@@ -257,15 +257,15 @@ function finishQuiz() {
     }
   });
 
-  // 로컬 스토리지에 응시 상태 및 점수 기록
+  // 로컬 스토리지에 기록
   localStorage.setItem('ai_quiz_submitted', 'true');
   localStorage.setItem('ai_quiz_score', score);
 
   showResultScreen(score);
 
-  // ⭐ 점수가 4점 이상일 때만 폭죽(Canvas 파티클) 실행
+  // ⭐ 4점 이상일 때만 폭죽 연출 실행
   if (score >= 4) {
-    launchFireworks();
+    setTimeout(() => launchFireworks(), 200);
   }
 }
 
@@ -299,7 +299,7 @@ function setupSecretReset() {
       clearTimeout(clickResetTimer);
       clickResetTimer = setTimeout(() => {
         footerClicks = 0;
-      }, 2000); // 2초 이내에 계속 클릭해야 함
+      }, 2000);
 
       if (footerClicks >= 5) {
         footerClicks = 0;
@@ -315,10 +315,11 @@ function setupSecretReset() {
 }
 
 /* ===================================================
-   폭죽(Firework Canvas) 애니메이션 효과
+   폭죽(Firework Canvas) 파티클 애니메이션 엔진
 =================================================== */
 let canvas, ctx;
 let particles = [];
+let animationId = null;
 
 function initCanvas() {
   canvas = document.getElementById('fireworks-canvas');
@@ -336,17 +337,20 @@ function resizeCanvas() {
 }
 
 function launchFireworks() {
-  particles = [];
-  const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#f59e0b', '#10b981', '#ec4899'];
+  if (!canvas || !ctx) initCanvas();
   
-  for (let i = 0; i < 5; i++) {
+  particles = [];
+  const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#f59e0b', '#10b981', '#ec4899', '#8b5cf6'];
+  
+  // 6번 폭죽 연속 발사
+  for (let i = 0; i < 6; i++) {
     setTimeout(() => {
-      const startX = Math.random() * (canvas.width * 0.6) + (canvas.width * 0.2);
-      const startY = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.2);
+      const startX = Math.random() * (canvas.width * 0.7) + (canvas.width * 0.15);
+      const startY = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.15);
       
-      for (let p = 0; p < 80; p++) {
+      for (let p = 0; p < 90; p++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 9 + 3;
+        const speed = Math.random() * 10 + 2;
         particles.push({
           x: startX,
           y: startY,
@@ -354,13 +358,14 @@ function launchFireworks() {
           vy: Math.sin(angle) * speed,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
-          decay: Math.random() * 0.015 + 0.01,
+          decay: Math.random() * 0.015 + 0.008,
           size: Math.random() * 4 + 2
         });
       }
-    }, i * 200);
+    }, i * 220);
   }
 
+  if (animationId) cancelAnimationFrame(animationId);
   animateFireworks();
 }
 
@@ -376,7 +381,7 @@ function animateFireworks() {
     const p = particles[i];
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.08; // 중력 효과
+    p.vy += 0.1; // 중력
     p.alpha -= p.decay;
 
     if (p.alpha <= 0) {
@@ -393,5 +398,5 @@ function animateFireworks() {
     ctx.restore();
   }
 
-  requestAnimationFrame(animateFireworks);
+  animationId = requestAnimationFrame(animateFireworks);
 }

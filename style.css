@@ -1,4 +1,4 @@
-/* 기본 리셋 및 스타일 정의 */
+/* 기본 리셋 및 변수 설정 */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,19 +9,19 @@
 :root {
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
-  --bg-color: #ffffff;
+  --bg-gradient: linear-gradient(135deg, #f0f6ff 0%, #e0eefd 100%);
   --card-bg: #ffffff;
-  --text-main: #0f172a;
+  --text-main: #1e293b;
   --text-muted: #64748b;
   --border-color: #e2e8f0;
   --selected-bg: #eff6ff;
-  --selected-border: #2563eb;
+  --selected-border: #3b82f6;
   --radius: 16px;
-  --shadow: 0 10px 30px rgba(37, 99, 235, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
 
 body {
-  background-color: var(--bg-color);
+  background: var(--bg-gradient);
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
@@ -30,6 +30,17 @@ body {
   padding: 16px;
   position: relative;
   overflow-x: hidden;
+}
+
+/* 폭죽 Canvas 최상단 배치 */
+#fireworks-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99999;
 }
 
 /* 앱 컨테이너 */
@@ -50,15 +61,14 @@ body {
 
 .badge {
   display: inline-block;
-  background-color: #eff6ff;
+  background-color: #dbeafe;
   color: var(--primary-color);
   font-size: 12px;
   font-weight: 700;
-  padding: 6px 14px;
+  padding: 4px 12px;
   border-radius: 20px;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-  border: 1px solid #bfdbfe;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 
 .app-header h1 {
@@ -89,14 +99,14 @@ body {
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
-  padding: 32px 24px;
+  padding: 28px 24px;
   box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   text-align: center;
 }
 
 .icon-wrapper {
-  font-size: 42px;
+  font-size: 40px;
   margin-bottom: 12px;
 }
 
@@ -122,7 +132,6 @@ body {
   text-align: left;
   font-size: 14px;
   margin-bottom: 24px;
-  border: 1px solid #f1f5f9;
 }
 
 .info-list li {
@@ -148,8 +157,8 @@ body {
 
 .btn-primary {
   background-color: var(--primary-color);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  color: white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -172,11 +181,10 @@ body {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background-color: #f1f5f9;
+  background-color: #e2e8f0;
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 6px;
-  border: 1px solid #e2e8f0;
 }
 
 .progress-fill {
@@ -226,7 +234,7 @@ body {
 
 .option-btn:hover {
   background-color: #f8fafc;
-  border-color: #94a3b8;
+  border-color: #cbd5e1;
 }
 
 .option-btn.selected {
@@ -238,7 +246,7 @@ body {
 
 /* 점수 표시 상자 */
 .score-box {
-  background-color: #eff6ff;
+  background-color: #f0f6ff;
   border: 2px solid #bfdbfe;
   padding: 20px;
   border-radius: 12px;
@@ -258,12 +266,22 @@ body {
   color: var(--primary-color);
 }
 
-/* 푸터 */
+/* 푸터 (모바일 터치 하이라이트 및 드래그 완벽 제거) */
 .app-footer {
   text-align: center;
   padding: 16px 0;
   font-size: 12px;
   color: var(--text-muted);
+  
+  /* 드래그 및 블록선택 완전 방지 */
   user-select: none;
-  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  
+  /* 모바일 터치 시 나타나는 파란색/회색 터치 배경박스 제거 */
+  -webkit-tap-highlight-color: transparent;
+  
+  /* 일반 텍스트 모양 유지 */
+  cursor: default;
 }

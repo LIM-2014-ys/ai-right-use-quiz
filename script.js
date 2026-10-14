@@ -141,7 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function checkSubmission() {
   const isSubmitted = localStorage.getItem('ai_quiz_submitted');
   if (isSubmitted === 'true') {
-    switchScreen('already');
+    const savedScore = localStorage.getItem('ai_quiz_score') || 0;
+    showResultScreen(savedScore);
   }
 }
 
@@ -244,10 +245,16 @@ function finishQuiz() {
   });
 
   localStorage.setItem('ai_quiz_submitted', 'true');
+  localStorage.setItem('ai_quiz_score', score);
 
+  showResultScreen(score);
+  launchFireworks();
+}
+
+function showResultScreen(score) {
   scoreText.textContent = `${score} / 5`;
   
-  if (score === 5) {
+  if (score == 5) {
     resultDesc.textContent = "AI 올바른 사용법을 완벽하게 이해하고 있습니다.";
   } else if (score >= 3) {
     resultDesc.textContent = "AI 올바른 사용법을 잘 이해하고 있습니다.";
@@ -256,14 +263,17 @@ function finishQuiz() {
   }
 
   switchScreen('result');
-  launchFireworks();
 }
 
+/* ===================================================
+   폭죽(Firework) 애니메이션 효과 (Canvas)
+=================================================== */
 let canvas, ctx;
 let particles = [];
 
 function initCanvas() {
   canvas = document.getElementById('fireworks-canvas');
+  if (!canvas) return;
   ctx = canvas.getContext('2d');
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
@@ -280,14 +290,14 @@ function launchFireworks() {
   particles = [];
   const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#f59e0b', '#10b981', '#ec4899'];
   
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     setTimeout(() => {
       const startX = Math.random() * (canvas.width * 0.6) + (canvas.width * 0.2);
       const startY = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.2);
       
-      for (let p = 0; p < 60; p++) {
+      for (let p = 0; p < 70; p++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 6 + 2;
+        const speed = Math.random() * 8 + 3;
         particles.push({
           x: startX,
           y: startY,
@@ -296,10 +306,10 @@ function launchFireworks() {
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
           decay: Math.random() * 0.015 + 0.01,
-          size: Math.random() * 3 + 2
+          size: Math.random() * 4 + 2
         });
       }
-    }, i * 300);
+    }, i * 250);
   }
 
   animateFireworks();

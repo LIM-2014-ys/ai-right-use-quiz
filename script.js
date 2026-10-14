@@ -144,8 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function checkSubmission() {
   const isSubmitted = localStorage.getItem('ai_quiz_submitted');
   if (isSubmitted === 'true') {
-    const savedScore = localStorage.getItem('ai_quiz_score') || 0;
+    const savedScore = parseInt(localStorage.getItem('ai_quiz_score') || 0, 10);
     showResultScreen(savedScore);
+    
+    // 💡 저장된 점수가 4점 이상일 때만 폭죽 터뜨림
+    if (savedScore >= 4) {
+      launchFireworks();
+    }
   }
 }
 
@@ -257,7 +262,11 @@ function finishQuiz() {
   localStorage.setItem('ai_quiz_score', score);
 
   showResultScreen(score);
-  launchFireworks();
+
+  // 💡 점수가 4점 이상일 때만 폭죽 실행
+  if (score >= 4) {
+    launchFireworks();
+  }
 }
 
 // 결과 화면 출력

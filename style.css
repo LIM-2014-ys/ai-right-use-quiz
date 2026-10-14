@@ -9,19 +9,19 @@
 :root {
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
-  --bg-gradient: linear-gradient(135deg, #f0f6ff 0%, #e0eefd 100%);
+  --bg-color: #ffffff;
   --card-bg: #ffffff;
-  --text-main: #1e293b;
+  --text-main: #0f172a;
   --text-muted: #64748b;
   --border-color: #e2e8f0;
   --selected-bg: #eff6ff;
-  --selected-border: #3b82f6;
+  --selected-border: #2563eb;
   --radius: 16px;
-  --shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow: 0 10px 30px rgba(37, 99, 235, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 body {
-  background: var(--bg-gradient);
+  background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
@@ -32,7 +32,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 폭죽 Canvas 최상단 배치 */
+/* 폭죽 Canvas 최상단 및 투명 클릭 배치 */
 #fireworks-canvas {
   position: fixed;
   top: 0;
@@ -40,7 +40,7 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 99999;
+  z-index: 999999;
 }
 
 /* 앱 컨테이너 */
@@ -61,14 +61,15 @@ body {
 
 .badge {
   display: inline-block;
-  background-color: #dbeafe;
+  background-color: #eff6ff;
   color: var(--primary-color);
   font-size: 12px;
   font-weight: 700;
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  border: 1px solid #bfdbfe;
 }
 
 .app-header h1 {
@@ -95,18 +96,18 @@ body {
   display: block;
 }
 
-/* 카드 카드 디자인 */
+/* 카드 디자인 */
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
-  padding: 28px 24px;
+  padding: 32px 24px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-color);
   text-align: center;
 }
 
 .icon-wrapper {
-  font-size: 40px;
+  font-size: 42px;
   margin-bottom: 12px;
 }
 
@@ -132,6 +133,7 @@ body {
   text-align: left;
   font-size: 14px;
   margin-bottom: 24px;
+  border: 1px solid #f1f5f9;
 }
 
 .info-list li {
@@ -157,8 +159,8 @@ body {
 
 .btn-primary {
   background-color: var(--primary-color);
-  color: white;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -181,10 +183,11 @@ body {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background-color: #e2e8f0;
+  background-color: #f1f5f9;
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 6px;
+  border: 1px solid #e2e8f0;
 }
 
 .progress-fill {
@@ -234,7 +237,7 @@ body {
 
 .option-btn:hover {
   background-color: #f8fafc;
-  border-color: #cbd5e1;
+  border-color: #94a3b8;
 }
 
 .option-btn.selected {
@@ -246,7 +249,7 @@ body {
 
 /* 점수 표시 상자 */
 .score-box {
-  background-color: #f0f6ff;
+  background-color: #eff6ff;
   border: 2px solid #bfdbfe;
   padding: 20px;
   border-radius: 12px;
@@ -273,5 +276,5 @@ body {
   font-size: 12px;
   color: var(--text-muted);
   user-select: none;
-  cursor: pointer; /* 푸터에 은은한 클릭 지시 */
+  cursor: pointer;
 }
